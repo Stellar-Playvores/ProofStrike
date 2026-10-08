@@ -4,7 +4,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - chickenz-data:/app/services/server/data
+      - proofstrike-data:/app/services/server/data
     environment:
       SERVER_REGION: us
       CANONICAL_HOST: localhost
@@ -20,6 +20,6 @@ services:
       retries: 3
 
 volumes:
-  chickenz-data:
+  proofstrike-data:
     # SQLite DB and backups are stored at /app/services/server/data inside the container.
     # Mount this volume to persist match history, ELO, and transcripts across restarts.

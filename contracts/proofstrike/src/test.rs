@@ -44,7 +44,7 @@ impl MockVerifier {
 // ── Helpers ────────────────────────────────────────────────────
 
 fn setup(env: &Env) -> (Address, Address, Address, Address, BytesN<32>) {
-    let contract_id = env.register(ChickenzContract, ());
+    let contract_id = env.register(ProofStrikeContract, ());
     let admin = Address::generate(env);
     let game_hub = env.register(MockGameHub, ());
     let verifier = env.register(MockVerifier, ());
@@ -53,9 +53,9 @@ fn setup(env: &Env) -> (Address, Address, Address, Address, BytesN<32>) {
     (contract_id, admin, game_hub, verifier, image_id)
 }
 
-fn init<'a>(env: &'a Env) -> (ChickenzContractClient<'a>, Address, Address, BytesN<32>) {
+fn init<'a>(env: &'a Env) -> (ProofStrikeContractClient<'a>, Address, Address, BytesN<32>) {
     let (contract_id, admin, game_hub, verifier, image_id) = setup(env);
-    let client = ChickenzContractClient::new(env, &contract_id);
+    let client = ProofStrikeContractClient::new(env, &contract_id);
     client.initialize(&admin, &game_hub, &verifier, &image_id);
     (client, admin, contract_id, image_id)
 }
@@ -83,7 +83,7 @@ fn test_initialize() {
     let env = Env::default();
     env.mock_all_auths();
     let (contract_id, admin, game_hub, verifier, image_id) = setup(&env);
-    let client = ChickenzContractClient::new(&env, &contract_id);
+    let client = ProofStrikeContractClient::new(&env, &contract_id);
     client.initialize(&admin, &game_hub, &verifier, &image_id);
 }
 
@@ -93,7 +93,7 @@ fn test_double_initialize() {
     let env = Env::default();
     env.mock_all_auths();
     let (contract_id, admin, game_hub, verifier, image_id) = setup(&env);
-    let client = ChickenzContractClient::new(&env, &contract_id);
+    let client = ProofStrikeContractClient::new(&env, &contract_id);
     client.initialize(&admin, &game_hub, &verifier, &image_id);
     client.initialize(&admin, &game_hub, &verifier, &image_id);
 }
@@ -157,8 +157,8 @@ fn test_start_match_duplicate_session() {
 fn test_start_match_not_initialized() {
     let env = Env::default();
     env.mock_all_auths();
-    let contract_id = env.register(ChickenzContract, ());
-    let client = ChickenzContractClient::new(&env, &contract_id);
+    let contract_id = env.register(ProofStrikeContract, ());
+    let client = ProofStrikeContractClient::new(&env, &contract_id);
 
     let player1 = Address::generate(&env);
     let player2 = Address::generate(&env);

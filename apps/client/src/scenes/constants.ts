@@ -1,5 +1,5 @@
-import type { GameMap } from "@chickenz/sim";
-import { ARENA, WeaponType } from "@chickenz/sim";
+import type { GameMap } from "@proofstrike/sim";
+import { ARENA, WeaponType } from "@proofstrike/sim";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 

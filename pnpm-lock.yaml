@@ -41,7 +41,7 @@ importers:
 
   apps/client:
     dependencies:
-      '@chickenz/sim':
+      '@proofstrike/sim':
         specifier: workspace:*
         version: link:../../packages/sim
       '@stellar/stellar-sdk':
@@ -72,7 +72,7 @@ importers:
 
   services/server:
     dependencies:
-      '@chickenz/sim':
+      '@proofstrike/sim':
         specifier: workspace:*
         version: link:../../packages/sim
       '@stellar/stellar-sdk':

@@ -1,4 +1,4 @@
-import type { PlayerInput } from "@chickenz/sim";
+import type { PlayerInput } from "@proofstrike/sim";
 import type {
   ServerMessage,
   StateMessage,

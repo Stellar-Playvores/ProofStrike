@@ -1,6 +1,6 @@
 import type { ServerWebSocket } from "bun";
-import type { PlayerInput, GameMap, Platform } from "@chickenz/sim";
-import { Button, PLAYER_WIDTH, PLAYER_HEIGHT } from "@chickenz/sim";
+import type { PlayerInput, GameMap, Platform } from "@proofstrike/sim";
+import { Button, PLAYER_WIDTH, PLAYER_HEIGHT } from "@proofstrike/sim";
 import type { SocketData } from "./GameRoom";
 
 // ── Bot Names ──────────────────────────────────────────────

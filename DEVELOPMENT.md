@@ -16,7 +16,7 @@
 ### 1. Clone and install dependencies
 
 ```bash
-git clone <repo-url> && cd chickenz
+git clone git@github.com:Stellar-Playvores/ProofStrike.git && cd ProofStrike
 pnpm install
 ```
 
@@ -43,7 +43,7 @@ Edit `.env` with your values. Required for basic local development:
 | `PORT` | No | Server port (default 3000) |
 | `STELLAR_ADMIN_SECRET` | For ranked/on-chain | Stellar secret key for match registration |
 | `SOROBAN_RPC_URL` | For ranked/on-chain | Soroban RPC endpoint |
-| `CHICKENZ_CONTRACT` | For ranked/on-chain | Deployed game contract address |
+| `PROOFSTRIKE_CONTRACT` | For ranked/on-chain | Deployed game contract address |
 | `VITE_ACCOUNT_WASM_HASH` | For passkey wallets | Smart Account Kit WASM hash |
 | `VITE_WEBAUTHN_VERIFIER` | For passkey wallets | WebAuthn verifier contract |
 | `VITE_RELAYER_URL` | For passkey wallets | OZ Channels relayer URL |
@@ -70,7 +70,7 @@ pnpm dev:server
 # runs: bun --watch src/index.ts
 ```
 
-The server listens on port 3000 (HTTP + WebSocket). SQLite database is created automatically at `services/server/data/chickenz.db`.
+The server listens on port 3000 (HTTP + WebSocket). SQLite database is created automatically at `services/server/data/proofstrike.db`.
 
 ### 5. Start the client dev server
 
@@ -83,7 +83,7 @@ This starts Vite at `http://localhost:5173` with HMR. The client connects to the
 ## Project Structure
 
 ```
-chickenz/
+ProofStrike/
   packages/sim/        -- TS game types/constants (legacy sim, types still used for rendering)
   apps/client/         -- Phaser 2D client (Vite + TypeScript)
   services/server/     -- Bun game server (HTTP + WebSocket + SQLite)
@@ -92,7 +92,7 @@ chickenz/
     wasm/              -- wasm-bindgen wrapper over core
     guest/             -- RISC Zero zkVM guest program
     host/              -- Proof orchestration (local + Boundless)
-  contracts/chickenz/  -- Soroban smart contract
+  contracts/proofstrike/  -- Soroban smart contract
 ```
 
 ## Running Tests
@@ -118,7 +118,7 @@ cd services/prover/core && cargo test
 ### Soroban contract tests
 
 ```bash
-cd contracts/chickenz && cargo test
+cd contracts/proofstrike && cargo test
 ```
 
 ### Single test file
@@ -164,7 +164,7 @@ bun test ./services/server/src/db.test.ts
 | `init.rs` | 2 | State initialization |
 | **Total** | **49** | |
 
-### Contract Tests (`contracts/chickenz/src/test.rs`)
+### Contract Tests (`contracts/proofstrike/src/test.rs`)
 
 | Tests | Covers |
 |---|---|
@@ -211,9 +211,9 @@ macOS ships bash 3.2 which does not support `declare -A`. Deploy manually:
 cd apps/client && npx vite build && cd ../..
 
 # Copy to each server
-scp -r apps/client/dist/* root@178.156.244.26:/root/chickenz/services/server/public/   # US
-scp -r apps/client/dist/* root@89.167.92.60:/root/chickenz/services/server/public/      # EU
-scp -r apps/client/dist/* root@5.223.61.107:/root/chickenz/services/server/public/      # Asia
+scp -r apps/client/dist/* root@178.156.244.26:/root/proofstrike/services/server/public/   # US
+scp -r apps/client/dist/* root@89.167.92.60:/root/proofstrike/services/server/public/      # EU
+scp -r apps/client/dist/* root@5.223.61.107:/root/proofstrike/services/server/public/      # Asia
 ```
 
 Static file changes do not require a server restart. For server code changes, SSH in and restart the Bun process.

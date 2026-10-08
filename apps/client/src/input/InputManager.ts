@@ -1,5 +1,5 @@
-import type { PlayerInput } from "@chickenz/sim";
-import { Button } from "@chickenz/sim";
+import type { PlayerInput } from "@proofstrike/sim";
+import { Button } from "@proofstrike/sim";
 
 /** Each action has two bindable slots: [primary, secondary]. Empty string = unbound. */
 export interface KeyBindings {
@@ -20,7 +20,7 @@ const DEFAULT_BINDINGS: KeyBindings = {
   taunt: ["KeyS", "ArrowDown"],
 };
 
-const STORAGE_KEY = "chickenz-bindings";
+const STORAGE_KEY = "proofstrike-bindings";
 
 /** Human-readable label for a keyboard/mouse code. */
 export function friendlyKeyName(code: string): string {

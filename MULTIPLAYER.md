@@ -142,9 +142,9 @@ Client RegionManager
   └─ Game connection targets a single region at a time
 ```
 
-- Regional subdomains: `us.chickenz.io`, `eu.chickenz.io`, `asia.chickenz.io`
+- Regional subdomains: `us.proofstrike.io`, `eu.proofstrike.io`, `asia.proofstrike.io`
 - Ping threshold: 160ms — high-ping regions shown dimmed but selectable
-- Home region persisted in `localStorage("chickenz-home-region")`
+- Home region persisted in `localStorage("proofstrike-home-region")`
 - Wallet verification tokens stored per-region
 
 ---

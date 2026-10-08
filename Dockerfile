@@ -46,7 +46,7 @@ COPY --from=builder --chown=bun:bun /app/services/prover/wasm/pkg services/prove
 # already includes the built client.
 
 # Symlink workspace package (sim has zero npm deps, no install needed)
-RUN mkdir -p node_modules/@chickenz && ln -s /app/packages/sim node_modules/@chickenz/sim
+RUN mkdir -p node_modules/@proofstrike && ln -s /app/packages/sim node_modules/@proofstrike/sim
 
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \

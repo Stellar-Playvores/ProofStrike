@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Chickenz ZK Prover
+# ProofStrike ZK Prover
 # Usage: ./scripts/prove.sh <transcript.json> [--local] [--boundless]
 #
 # Modes:
@@ -15,7 +15,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 PROVER_DIR="$ROOT_DIR/services/prover"
-HOST_BIN="$PROVER_DIR/target/release/chickenz-host"
+HOST_BIN="$PROVER_DIR/target/release/proofstrike-host"
 
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <transcript.json> [--local] [--boundless]"
@@ -44,10 +44,10 @@ fi
 # Build if needed
 if [ ! -f "$HOST_BIN" ]; then
     echo "Building prover host (release)..."
-    (cd "$PROVER_DIR" && cargo build --release -p chickenz-host)
+    (cd "$PROVER_DIR" && cargo build --release -p proofstrike-host)
 fi
 
-echo "=== Chickenz ZK Prover ==="
+echo "=== ProofStrike ZK Prover ==="
 echo "Transcript: $TRANSCRIPT"
 echo "Args: $@"
 echo ""

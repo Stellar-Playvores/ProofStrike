@@ -1,4 +1,4 @@
-# Chickenz Comprehensive Codebase Audit Report
+# ProofStrike Comprehensive Codebase Audit Report
 
 **Date**: 2026-04-02
 **Scope**: Full codebase — client, server, contracts, Rust simulation, ZK proving, infrastructure
@@ -160,13 +160,13 @@ The following items from this audit have been resolved:
 
 ### H13. Verifier Contract Compromise = Total Game Integrity Loss
 
-- **File**: `contracts/chickenz/src/lib.rs:273-281`
+- **File**: `contracts/proofstrike/src/lib.rs:273-281`
 - **Issue**: If verifier contract is upgraded to malicious code, all proofs pass/fail at attacker's discretion.
 - **Mitigation**: Document this trust assumption. Consider timelock on verifier address changes.
 
 ### H14. `settle_match()` Has No Access Control
 
-- **File**: `contracts/chickenz/src/lib.rs:239`
+- **File**: `contracts/proofstrike/src/lib.rs:239`
 - **Issue**: Anyone can call `settle_match()` with a valid proof. This is by design (permissionless settlement), but means a front-runner could settle before the intended party.
 - **Note**: The ZK proof is the authorization. This is acceptable but should be documented.
 
@@ -195,7 +195,7 @@ The following items from this audit have been resolved:
 
 ### H19. Missing Test for `settle_match()` Authorization
 
-- **File**: `contracts/chickenz/src/test.rs`
+- **File**: `contracts/proofstrike/src/test.rs`
 - **Issue**: All tests use `mock_all_auths()`. No test verifies that settle_match is truly permissionless or that unauthorized admin operations fail.
 
 ### H20. Match Round Safety Cap Too Loose
@@ -232,7 +232,7 @@ The following items from this audit have been resolved:
 
 ### M4. Seed Commit Verification After Proof Verification
 
-- `contracts/chickenz/src/lib.rs:290-293` — Seed commit checked AFTER verifier call. Should be before (defense in depth).
+- `contracts/proofstrike/src/lib.rs:290-293` — Seed commit checked AFTER verifier call. Should be before (defense in depth).
 
 ### M5. Journal Size Not Strictly Validated
 
@@ -332,23 +332,23 @@ The following items from this audit have been resolved:
 
 ### M29. Upgrade Function Has No Timelock
 
-- `contracts/chickenz/src/lib.rs:168-177` — Admin can upgrade contract WASM instantly. No multi-sig or delay.
+- `contracts/proofstrike/src/lib.rs:168-177` — Admin can upgrade contract WASM instantly. No multi-sig or delay.
 
 ### M30. Missing Test — Verifier Contract Failure
 
-- `contracts/chickenz/src/test.rs` — No test for what happens if verifier panics or is unavailable.
+- `contracts/proofstrike/src/test.rs` — No test for what happens if verifier panics or is unavailable.
 
 ### M31. Missing Test — Invalid Winner Boundary Values
 
-- `contracts/chickenz/src/test.rs` — Only tests winner values 0, 1, 5, -1. Missing -2, 2, large values.
+- `contracts/proofstrike/src/test.rs` — Only tests winner values 0, 1, 5, -1. Missing -2, 2, large values.
 
 ### M32. Missing Test — Game Hub Failure
 
-- `contracts/chickenz/src/test.rs` — No test for `game_hub.end_game()` panic scenario.
+- `contracts/proofstrike/src/test.rs` — No test for `game_hub.end_game()` panic scenario.
 
 ### M33. Soroban SDK Version Not Pinned Exactly
 
-- `contracts/chickenz/Cargo.toml` — Uses `"22.0.6"` (semver compatible) not `"=22.0.6"`.
+- `contracts/proofstrike/Cargo.toml` — Uses `"22.0.6"` (semver compatible) not `"=22.0.6"`.
 
 ### M34. RISC Zero SDK Version Loose
 

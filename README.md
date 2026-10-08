@@ -1,4 +1,4 @@
-# Chickenz
+# ProofStrike
 
 Competitive 2D platformer shooter with ZK-provable game outcomes settled on Stellar Soroban.
 
@@ -14,13 +14,14 @@ Two players compete in best-of-3 rounds (30 seconds each, 1 life per round). Fiv
 - [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) (for building the WASM sim)
 
 > **Optional** (only needed for ZK proving and on-chain settlement):
+>
 > - [RISC Zero toolchain](https://dev.risczero.com/api/zkvm/install) (`rzup install`)
 > - [Stellar CLI](https://developers.stellar.org/docs/tools/developer-tools/cli/install-cli)
 
 ### 1. Install dependencies
 
 ```bash
-git clone https://github.com/AshFrancis/chickenz && cd chickenz
+git clone git@github.com:Stellar-Playvores/ProofStrike.git && cd ProofStrike
 pnpm install
 ```
 
@@ -55,13 +56,13 @@ Open `http://localhost:5173` in two browser tabs to play against yourself. Click
 bun test packages/sim
 
 # Rust core tests (49 tests)
-cd services/prover && cargo test -p chickenz-core
+cd services/prover && cargo test -p proofstrike-core
 
 # Server tests (311 tests)
 bun test services/server
 
 # Soroban contract tests (20 tests)
-cd contracts/chickenz && cargo test
+cd contracts/proofstrike && cargo test
 ```
 
 ## How It Works
@@ -75,6 +76,7 @@ cd contracts/chickenz && cargo test
 ```
 
 The ZK proof verifies that:
+
 - Both winning rounds were replayed correctly from the same committed seed
 - The input transcripts were not tampered with (SHA-256 commitment chain)
 - The same player won both rounds, confirming them as the match winner
@@ -90,7 +92,7 @@ services/prover/
   wasm/                 WASM build of core (used by client + server)
   guest/                RISC Zero guest — multi-round proof (replays 2 winning rounds)
   host/                 Orchestration (monolithic + Boundless modes)
-contracts/chickenz/     Soroban game contract + Groth16 verification (deployed, 20 tests)
+contracts/proofstrike/     Soroban game contract + Groth16 verification (deployed, 20 tests)
 ```
 
 ### ZK Proving Pipeline
@@ -102,22 +104,22 @@ The game sim runs at 60Hz for 30 seconds per round (1800 ticks). A best-of-3 mat
 3. **Raw byte I/O** — `env::read_slice` / `env::commit_slice` bypasses serde (97% faster deserialization)
 4. **Multi-round encoding** — `[round_count][seed][round1_ticks...][round2_ticks...]` — both rounds share one seed
 
-| Optimization | Cycles/round | Reduction |
-|---|---|---|
-| Original (f64) | 52.4M | — |
-| Fixed-point | 11.5M | 4.6x |
-| In-place mutation | 8.5M | 1.4x |
-| Raw byte I/O | 5.2M | 1.6x |
-| SHA-256 precompile | **234K** | **22x** |
-| **Total** | **234K** | **224x** |
+| Optimization       | Cycles/round | Reduction |
+| ------------------ | ------------ | --------- |
+| Original (f64)     | 52.4M        | —         |
+| Fixed-point        | 11.5M        | 4.6x      |
+| In-place mutation  | 8.5M         | 1.4x      |
+| Raw byte I/O       | 5.2M         | 1.6x      |
+| SHA-256 precompile | **234K**     | **22x**   |
+| **Total**          | **234K**     | **224x**  |
 
 ### On-Chain Contracts (Stellar Testnet)
 
-| Contract | Address |
-|---|---|
-| Chickenz Game | `CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG` |
+| Contract         | Address                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| ProofStrike Game | `CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG` |
 | Groth16 Verifier | `CDUDXCLMNE7Q4BZJLLB3KACFOS55SS55GSQW2UYHDUXTJKZUDDAJYCIH` |
-| Game Hub | `CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG` |
+| Game Hub         | `CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG` |
 
 The game contract calls `start_game()` and `end_game()` on the Stellar Game Hub. Settlement verifies the Groth16 proof via the Nethermind RISC Zero verifier using Soroban's native BN254 pairing (Protocol 25).
 
@@ -129,15 +131,15 @@ Copy the example env file and fill in your keys:
 cp .env.example .env
 ```
 
-| Variable | Required For | Description |
-|---|---|---|
-| `PORT` | Server | Server port (default: `3000`) |
-| `BOUNDLESS_RPC_URL` | Boundless proving | Ethereum Sepolia RPC for Boundless marketplace |
-| `BOUNDLESS_PRIVATE_KEY` | Boundless proving | Ethereum Sepolia wallet private key (0x-prefixed) |
-| `PINATA_JWT` | Boundless proving | Pinata JWT for IPFS uploads (ELF + input storage) |
-| `STELLAR_ADMIN_SECRET` | On-chain settlement | Stellar secret key for `start_match` / `settle_match` |
-| `SOROBAN_RPC_URL` | On-chain settlement | Soroban RPC endpoint (default: testnet) |
-| `WORKER_API_KEY` | Proof worker | API key for authenticating remote proof workers |
+| Variable                | Required For        | Description                                           |
+| ----------------------- | ------------------- | ----------------------------------------------------- |
+| `PORT`                  | Server              | Server port (default: `3000`)                         |
+| `BOUNDLESS_RPC_URL`     | Boundless proving   | Ethereum Sepolia RPC for Boundless marketplace        |
+| `BOUNDLESS_PRIVATE_KEY` | Boundless proving   | Ethereum Sepolia wallet private key (0x-prefixed)     |
+| `PINATA_JWT`            | Boundless proving   | Pinata JWT for IPFS uploads (ELF + input storage)     |
+| `STELLAR_ADMIN_SECRET`  | On-chain settlement | Stellar secret key for `start_match` / `settle_match` |
+| `SOROBAN_RPC_URL`       | On-chain settlement | Soroban RPC endpoint (default: testnet)               |
+| `WORKER_API_KEY`        | Proof worker        | API key for authenticating remote proof workers       |
 
 > **Note**: For local development, no environment variables are needed. The game runs fully without ZK proving or blockchain integration. Env vars are only required for ranked match proving and on-chain settlement.
 
@@ -145,7 +147,7 @@ cp .env.example .env
 
 ```bash
 # Build the prover host binary (requires RISC Zero toolchain)
-cd services/prover && cargo build --release -p chickenz-host
+cd services/prover && cargo build --release -p proofstrike-host
 
 # Generate a proof in dev mode (fake proof for testing, instant)
 RISC0_DEV_MODE=1 ./scripts/prove.sh transcript.json --local
@@ -158,11 +160,11 @@ RISC0_DEV_MODE=1 ./scripts/prove.sh transcript.json --local
 
 ```bash
 # Build the game contract WASM
-cd contracts/chickenz && stellar contract build
+cd contracts/proofstrike && stellar contract build
 
 # Deploy to testnet
 stellar contract deploy \
-  --wasm target/wasm32v1-none/release/chickenz_contract.wasm \
+  --wasm target/wasm32v1-none/release/proofstrike_contract.wasm \
   --source default --network testnet
 
 # Initialize with verifier and Game Hub
@@ -241,15 +243,15 @@ The 76-byte journal committed to the zkVM contains: `winner(i32) + round_wins([u
 
 ## Documentation
 
-| File | Contents |
-|---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Component layout, authority model, data flow |
-| [SIM_SPEC.md](SIM_SPEC.md) | Game state, transition function, determinism constraints |
+| File                                 | Contents                                                    |
+| ------------------------------------ | ----------------------------------------------------------- |
+| [ARCHITECTURE.md](ARCHITECTURE.md)   | Component layout, authority model, data flow                |
+| [SIM_SPEC.md](SIM_SPEC.md)           | Game state, transition function, determinism constraints    |
 | [ZK_SETTLEMENT.md](ZK_SETTLEMENT.md) | Multi-round proof pipeline, journal layout, settlement flow |
-| [MULTIPLAYER.md](MULTIPLAYER.md) | Netcode, prediction, room lifecycle |
-| [PROTOCOL.md](PROTOCOL.md) | WebSocket message types, missing-input rule |
-| [TRANSCRIPT.md](TRANSCRIPT.md) | Commitment chain, transcript integrity |
-| [DEV_ROADMAP.md](DEV_ROADMAP.md) | Development roadmap and progress |
+| [MULTIPLAYER.md](MULTIPLAYER.md)     | Netcode, prediction, room lifecycle                         |
+| [PROTOCOL.md](PROTOCOL.md)           | WebSocket message types, missing-input rule                 |
+| [TRANSCRIPT.md](TRANSCRIPT.md)       | Commitment chain, transcript integrity                      |
+| [DEV_ROADMAP.md](DEV_ROADMAP.md)     | Development roadmap and progress                            |
 
 ## License
 

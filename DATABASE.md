@@ -7,8 +7,8 @@ Source: `services/server/src/db.ts`
 - **Engine**: SQLite via `bun:sqlite`
 - **Journal mode**: WAL (`PRAGMA journal_mode=WAL`)
 - **Data directory**: `services/server/data/` (created automatically)
-- **File**: `services/server/data/chickenz.db`
-- **Production path**: `/root/chickenz/services/server/data/chickenz.db`
+- **File**: `services/server/data/proofstrike.db`
+- **Production path**: `/root/proofstrike/services/server/data/proofstrike.db`
 
 ## Tables
 

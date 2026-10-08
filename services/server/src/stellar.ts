@@ -13,7 +13,8 @@ try {
 
 const RPC_URL = process.env.SOROBAN_RPC_URL || "https://soroban-testnet.stellar.org";
 const NETWORK_PASSPHRASE = "Test SDF Network ; September 2015";
-const CHICKENZ_CONTRACT = process.env.CHICKENZ_CONTRACT || "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG";
+const PROOFSTRIKE_CONTRACT =
+  process.env.PROOFSTRIKE_CONTRACT || "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG";
 const ADMIN_SECRET = process.env.STELLAR_ADMIN_SECRET;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic SDK type
@@ -40,7 +41,7 @@ async function submitTx(
 
   const server = new StellarSdk.rpc.Server(RPC_URL);
   const account = await server.getAccount(admin.publicKey());
-  const contract = new StellarSdk.Contract(CHICKENZ_CONTRACT);
+  const contract = new StellarSdk.Contract(PROOFSTRIKE_CONTRACT);
 
   const tx = new StellarSdk.TransactionBuilder(account, {
     fee: "1000000",
@@ -87,7 +88,7 @@ async function submitTx(
   return sendResult.hash;
 }
 
-/** Call start_match on the Chickenz Soroban contract. Fire-and-forget safe. */
+/** Call start_match on the ProofStrike Soroban contract. Fire-and-forget safe. */
 export async function startMatchOnChain(
   sessionId: number,
   player1: string,
@@ -108,7 +109,7 @@ export async function startMatchOnChain(
   }
 }
 
-/** Call settle_match on the Chickenz Soroban contract. */
+/** Call settle_match on the ProofStrike Soroban contract. */
 export async function settleMatchOnChain(
   sessionId: number,
   seal: Uint8Array,
@@ -129,7 +130,7 @@ export async function settleMatchOnChain(
 
 // All contracts whose instance + WASM TTL we keep alive
 const CONTRACTS_TO_EXTEND = [
-  CHICKENZ_CONTRACT,
+  PROOFSTRIKE_CONTRACT,
   process.env.VERIFIER_CONTRACT || "CDUDXCLMNE7Q4BZJLLB3KACFOS55SS55GSQW2UYHDUXTJKZUDDAJYCIH",
   process.env.GAME_HUB_CONTRACT || "CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG",
 ];
@@ -239,7 +240,7 @@ export async function verifySettleTxOnChain(txHash: string, sessionId: number): 
         if (hostFn.switch().name !== "hostFunctionTypeInvokeContract") continue;
         const args = hostFn.invokeContract();
         const contractId = StellarSdk.StrKey.encodeContract(args.contractAddress().contractId());
-        if (contractId !== CHICKENZ_CONTRACT) continue;
+        if (contractId !== PROOFSTRIKE_CONTRACT) continue;
         if (args.functionName().toString() !== "settle_match") continue;
         const invokeArgs = args.args();
         if (invokeArgs.length > 0 && Number(StellarSdk.scValToNative(invokeArgs[0])) === sessionId) {

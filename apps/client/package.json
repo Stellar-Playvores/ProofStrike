@@ -1,5 +1,5 @@
 {
-  "name": "@chickenz/client",
+  "name": "@proofstrike/client",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@chickenz/sim": "workspace:*",
+    "@proofstrike/sim": "workspace:*",
     "@stellar/stellar-sdk": "^14.5.0",
     "phaser": "^3.87.0",
     "smart-account-kit": "^0.2.9"

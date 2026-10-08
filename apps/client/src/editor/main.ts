@@ -1,10 +1,10 @@
 import Phaser from "phaser";
-import { initChickenzWasm } from "../wasm";
+import { initProofStrikeWasm } from "../wasm";
 import { EditorScene } from "./EditorScene";
 import { TestScene } from "./TestScene";
 
 async function boot() {
-  await initChickenzWasm();
+  await initProofStrikeWasm();
 
   const container = document.getElementById("editor-container")!;
 

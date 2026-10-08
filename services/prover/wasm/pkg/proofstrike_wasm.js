@@ -1,4 +1,4 @@
-/* @ts-self-types="./chickenz_wasm.d.ts" */
+/* @ts-self-types="./proofstrike_wasm.d.ts" */
 
 export class WasmState {
     static __wrap(ptr) {
@@ -209,7 +209,7 @@ function __wbg_get_imports() {
     };
     return {
         __proto__: null,
-        "./chickenz_wasm_bg.js": import0,
+        "./proofstrike_wasm_bg.js": import0,
     };
 }
 
@@ -466,7 +466,7 @@ async function __wbg_init(module_or_path) {
     }
 
     if (module_or_path === undefined) {
-        module_or_path = new URL('chickenz_wasm_bg.wasm', import.meta.url);
+        module_or_path = new URL('proofstrike_wasm_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

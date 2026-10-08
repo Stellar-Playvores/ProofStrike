@@ -56,7 +56,7 @@ const ALL_REGIONS = [EU, US, ASIA];
 
 function makeManager(regions = ALL_REGIONS, homeId = "") {
   storage.clear();
-  if (homeId) storage.set("chickenz-home-region", homeId);
+  if (homeId) storage.set("proofstrike-home-region", homeId);
   const rooms: unknown[] = [];
   const pings: unknown[] = [];
   return new RegionManager(regions, {
@@ -93,7 +93,7 @@ describe("RegionManager", () => {
     it("persists to localStorage", () => {
       const rm = makeManager();
       rm.homeRegionId = "asia";
-      expect(storage.get("chickenz-home-region")).toBe("asia");
+      expect(storage.get("proofstrike-home-region")).toBe("asia");
       expect(rm.homeRegionId).toBe("asia");
     });
   });

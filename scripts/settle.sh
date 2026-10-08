@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Chickenz On-Chain Settlement
+# ProofStrike On-Chain Settlement
 # Usage: ./scripts/settle.sh <session_id> <proof_artifacts.json>
 #
-# Reads proof_artifacts.json and calls settle_match() on the Chickenz contract.
+# Reads proof_artifacts.json and calls settle_match() on the ProofStrike contract.
 
-CHICKENZ_CONTRACT="CDYU5GFNDBIFYWLW54QV3LPDNQTER6ID3SK4QCCBVUY7NU76ESBP7LZP"
+PROOFSTRIKE_CONTRACT="CDYU5GFNDBIFYWLW54QV3LPDNQTER6ID3SK4QCCBVUY7NU76ESBP7LZP"
 NETWORK="testnet"
 SOURCE="${STELLAR_SOURCE:-default}"
 
@@ -36,16 +36,16 @@ if [ -z "$SEAL" ]; then
     exit 1
 fi
 
-echo "=== Chickenz On-Chain Settlement ==="
+echo "=== ProofStrike On-Chain Settlement ==="
 echo "Session ID: $SESSION_ID"
-echo "Contract:   $CHICKENZ_CONTRACT"
+echo "Contract:   $PROOFSTRIKE_CONTRACT"
 echo "Seal size:  $((${#SEAL} / 2)) bytes"
 echo "Journal:    $((${#JOURNAL} / 2)) bytes"
 echo ""
 
 echo "Calling settle_match()..."
 stellar contract invoke \
-    --id "$CHICKENZ_CONTRACT" \
+    --id "$PROOFSTRIKE_CONTRACT" \
     --source "$SOURCE" \
     --network "$NETWORK" \
     -- settle_match \

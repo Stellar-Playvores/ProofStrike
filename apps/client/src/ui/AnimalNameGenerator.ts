@@ -59,13 +59,13 @@ export function generateAnimalName(): string {
 }
 
 export function getOrCreateUsername(): string {
-  const saved = localStorage.getItem("chickenz-username");
+  const saved = localStorage.getItem("proofstrike-username");
   if (saved) return saved;
   // New users get no name — they'll pick one after the tutorial.
   // Returning users who lost their username (cleared storage) get a random one.
   if (!Tutorial.shouldShow()) {
     const name = generateAnimalName();
-    localStorage.setItem("chickenz-username", name);
+    localStorage.setItem("proofstrike-username", name);
     return name;
   }
   return "";

@@ -15,8 +15,8 @@ try {
 const env = loadEnv("development", resolve(__dirname, "../.."), "VITE_");
 
 // Local dev HTTPS certs — absent in CI/prod builds; Vite tolerates `https: undefined`
-const keyPath = resolve(__dirname, "certs/chickenz.local-key.pem");
-const certPath = resolve(__dirname, "certs/chickenz.local.pem");
+const keyPath = resolve(__dirname, "certs/proofstrike.local-key.pem");
+const certPath = resolve(__dirname, "certs/proofstrike.local.pem");
 const httpsConfig =
   fs.existsSync(keyPath) && fs.existsSync(certPath)
     ? { key: fs.readFileSync(keyPath), cert: fs.readFileSync(certPath) }
@@ -31,7 +31,7 @@ export default defineConfig({
   server: {
     host: true,
     open: true,
-    allowedHosts: ["chickenz.local"],
+    allowedHosts: ["proofstrike.local"],
     https: httpsConfig,
     proxy: {
       "/ws": {

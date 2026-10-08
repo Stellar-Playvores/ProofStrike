@@ -95,10 +95,10 @@ fn extract_seed_commit(env: &Env, journal: &Bytes) -> BytesN<32> {
 // ── Contract ─────────────────────────────────────────────────────────────────
 
 #[contract]
-pub struct ChickenzContract;
+pub struct ProofStrikeContract;
 
 #[contractimpl]
-impl ChickenzContract {
+impl ProofStrikeContract {
     /// One-time setup. Sets admin, game hub, verifier, and expected image ID.
     pub fn initialize(
         env: Env,

@@ -28,7 +28,7 @@
 
 ## Phase 4 — Soroban Contract + Game Hub ✅
 
-- Chickenz contract: `start_match()`, `settle_match()` with Groth16 verification
+- ProofStrike contract: `start_match()`, `settle_match()` with Groth16 verification
 - Cross-contract calls to Game Hub (`start_game`, `end_game`)
 - `start_match()` called at match start (before gameplay), not after
 - Groth16 verifier: Nethermind stellar-risc0-verifier (BN254 native pairing, Protocol 25)

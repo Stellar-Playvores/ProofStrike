@@ -1,4 +1,4 @@
-import { Button } from "@chickenz/sim";
+import { Button } from "@proofstrike/sim";
 
 /**
  * Virtual touch controls for mobile.

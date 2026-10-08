@@ -1,11 +1,11 @@
 use std::io::Read;
 use std::time::Instant;
 
-use chickenz_core::fp::{self, FpInput};
-use chickenz_core::{MultiRoundProverInput, ProverInput, ProverOutput};
+use proofstrike_core::fp::{self, FpInput};
+use proofstrike_core::{MultiRoundProverInput, ProverInput, ProverOutput};
 
-use chickenz_methods::CHICKENZ_GUEST_ELF;
-use chickenz_methods::CHICKENZ_GUEST_ID;
+use proofstrike_methods::PROOFSTRIKE_GUEST_ELF;
+use proofstrike_methods::PROOFSTRIKE_GUEST_ID;
 use risc0_zkvm::sha::Digestible;
 
 /// Loaded input: either single-round (legacy) or multi-round.
@@ -41,7 +41,7 @@ fn load_input(json_str: &str) -> LoadedInput {
     }
 }
 
-fn to_fp_round(transcript: &[[chickenz_core::PlayerInput; 2]]) -> Vec<[FpInput; 2]> {
+fn to_fp_round(transcript: &[[proofstrike_core::PlayerInput; 2]]) -> Vec<[FpInput; 2]> {
     transcript
         .iter()
         .map(|tick| {
@@ -105,7 +105,7 @@ fn run_monolithic_multi(seed: u32, rounds: &[Vec<[FpInput; 2]>], use_groth16: bo
 
     let start = Instant::now();
     let prove_info = prover
-        .prove_with_opts(env, CHICKENZ_GUEST_ELF, &opts)
+        .prove_with_opts(env, PROOFSTRIKE_GUEST_ELF, &opts)
         .expect("Proof generation failed");
     let elapsed = start.elapsed();
 
@@ -122,9 +122,11 @@ fn run_monolithic_multi(seed: u32, rounds: &[Vec<[FpInput; 2]>], use_groth16: bo
     let output = ProverOutput::from_journal_bytes(&receipt.journal.bytes);
     print_result(&output);
 
-    receipt.verify(CHICKENZ_GUEST_ID).expect("Receipt verification failed");
+    receipt
+        .verify(PROOFSTRIKE_GUEST_ID)
+        .expect("Receipt verification failed");
     eprintln!("Receipt verified locally.");
-    print_ids_and_artifacts(&receipt, &CHICKENZ_GUEST_ID, &output, use_groth16);
+    print_ids_and_artifacts(&receipt, &PROOFSTRIKE_GUEST_ID, &output, use_groth16);
 }
 
 // ============================================================================
@@ -196,7 +198,7 @@ async fn run_boundless_multi(seed: u32, rounds: &[Vec<[FpInput; 2]>]) {
     eprintln!("Submitting proof request to Boundless...");
     let request = client
         .new_request()
-        .with_program(CHICKENZ_GUEST_ELF)
+        .with_program(PROOFSTRIKE_GUEST_ELF)
         .with_stdin(stdin_bytes)
         .with_groth16_proof();
 
@@ -233,7 +235,7 @@ async fn run_boundless_multi(seed: u32, rounds: &[Vec<[FpInput; 2]>]) {
 
     // 8. Write proof_artifacts.json (same format as local proving)
     let image_id_hex = hex::encode(
-        CHICKENZ_GUEST_ID
+        PROOFSTRIKE_GUEST_ID
             .iter()
             .flat_map(|w| w.to_le_bytes())
             .collect::<Vec<_>>(),
@@ -337,7 +339,7 @@ fn main() {
     // Print image ID and exit (no transcript needed)
     if args.iter().any(|a| a == "--image-id") {
         let id_hex = hex::encode(
-            CHICKENZ_GUEST_ID
+            PROOFSTRIKE_GUEST_ID
                 .iter()
                 .flat_map(|w| w.to_le_bytes())
                 .collect::<Vec<_>>(),
@@ -386,7 +388,7 @@ fn main() {
         #[cfg(not(feature = "boundless"))]
         {
             eprintln!("ERROR: Boundless feature not enabled.");
-            eprintln!("Build with: cargo build -p chickenz-host --features boundless");
+            eprintln!("Build with: cargo build -p proofstrike-host --features boundless");
             std::process::exit(1);
         }
     } else {

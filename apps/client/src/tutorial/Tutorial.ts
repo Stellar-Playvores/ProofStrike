@@ -4,13 +4,13 @@
  * Tutorial controls P2 behavior per step via TutorialTickResult.
  */
 
-import { Button, PLAYER_HEIGHT } from "@chickenz/sim";
-import type { PlayerInput } from "@chickenz/sim";
+import { Button, PLAYER_HEIGHT } from "@proofstrike/sim";
+import type { PlayerInput } from "@proofstrike/sim";
 import type { StateMessage, SerializedPlayer } from "../../../../services/server/src/protocol";
 
 type GameStateData = Omit<StateMessage, "type">;
 
-const STORAGE_KEY = "chickenz-tutorial-done";
+const STORAGE_KEY = "proofstrike-tutorial-done";
 
 /** Result returned each tick to control P2 and modify state. */
 export interface TutorialTickResult {

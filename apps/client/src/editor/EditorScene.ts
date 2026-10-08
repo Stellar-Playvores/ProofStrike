@@ -1186,7 +1186,7 @@ export class EditorScene extends Phaser.Scene {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "map.chickenz-map.json";
+    a.download = "map.proofstrike-map.json";
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -1235,7 +1235,7 @@ export class EditorScene extends Phaser.Scene {
   private importEditorMap() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".json,.chickenz-map.json";
+    input.accept = ".json,.proofstrike-map.json";
     input.addEventListener("change", () => {
       const file = input.files?.[0];
       if (!file) return;

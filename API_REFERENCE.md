@@ -1,4 +1,4 @@
-# Chickenz API Reference
+# ProofStrike API Reference
 
 ## HTTP Endpoints
 

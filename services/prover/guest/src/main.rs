@@ -2,8 +2,8 @@
 
 risc0_zkvm::guest::entry!(main);
 
-use chickenz_core::fp;
-use chickenz_core::ProverOutput;
+use proofstrike_core::fp;
+use proofstrike_core::ProverOutput;
 
 /// Max raw input: 8 (header) + 2 rounds × (4 + 6 * 1800) = 21616 bytes ≈ 5404 u32 words
 /// Buffer sized conservatively at 6000 for headroom.

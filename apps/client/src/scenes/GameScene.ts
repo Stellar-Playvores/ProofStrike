@@ -15,8 +15,8 @@ import {
   WeaponType,
   Facing,
   NULL_INPUT,
-} from "@chickenz/sim";
-import type { GameMap, MatchConfig, PlayerInput } from "@chickenz/sim";
+} from "@proofstrike/sim";
+import type { GameMap, MatchConfig, PlayerInput } from "@proofstrike/sim";
 import { WasmState } from "../wasm";
 import { InputManager } from "../input/InputManager";
 import type { Tutorial, TutorialTickResult } from "../tutorial/Tutorial";
@@ -246,13 +246,13 @@ export class GameScene extends Phaser.Scene {
     });
 
     // Load persisted settings
-    const storedBGM = localStorage.getItem("chickenz-bgm-volume");
+    const storedBGM = localStorage.getItem("proofstrike-bgm-volume");
     if (storedBGM !== null) this.audio.bgmVolume = parseInt(storedBGM, 10) / 100;
-    const storedSFX = localStorage.getItem("chickenz-sfx-volume");
+    const storedSFX = localStorage.getItem("proofstrike-sfx-volume");
     if (storedSFX !== null) this.audio.sfxVolume = parseInt(storedSFX, 10) / 100;
-    const storedZoom = localStorage.getItem("chickenz-dynamic-zoom");
+    const storedZoom = localStorage.getItem("proofstrike-dynamic-zoom");
     if (storedZoom !== null) this.camera.dynamicZoom = storedZoom !== "false";
-    this.audio.setMusicMuted(localStorage.getItem("chickenz-music-muted") !== "false");
+    this.audio.setMusicMuted(localStorage.getItem("proofstrike-music-muted") !== "false");
   }
 
   create() {

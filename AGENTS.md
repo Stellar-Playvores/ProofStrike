@@ -1,4 +1,4 @@
-# Chickenz
+# ProofStrike
 
 Competitive 2D multiplayer platformer shooter with ZK-provable game outcomes settled on Stellar Soroban. Two players compete in best-of-3 rounds (30 seconds each, 1 life per round). Five weapons spawn on the map. A sudden death mechanic closes the arena walls at 20s. The full input transcript feeds a RISC Zero ZK proof that verifies the result on-chain.
 
@@ -8,7 +8,7 @@ Competitive 2D multiplayer platformer shooter with ZK-provable game outcomes set
 - **Client**: Phaser 2D renderer, lobby UI, mobile touch controls, tutorial, Stellar wallet connect (`apps/client`)
 - **Server**: Bun WebSocket, server-authoritative netcode, bot opponents, adaptive difficulty (`services/server`)
 - **ZK Prover**: RISC Zero zkVM, Groth16 compression, multi-round proofs (`services/prover`)
-- **Contracts**: Soroban smart contract + Nethermind Groth16 verifier (`contracts/chickenz`)
+- **Contracts**: Soroban smart contract + Nethermind Groth16 verifier (`contracts/proofstrike`)
 - **Package management**: pnpm (workspaces, dependency resolution) + Bun (runtime, test runner)
 
 ## Monorepo Layout
@@ -22,7 +22,7 @@ services/prover/
   wasm/                 WASM build of core (used by client + server)
   guest/                RISC Zero guest — multi-round proof (2 winning rounds)
   host/                 Orchestration (monolithic + Boundless)
-contracts/chickenz/     Soroban game contract (deployed on testnet, 20 tests)
+contracts/proofstrike/     Soroban game contract (deployed on testnet, 20 tests)
 scripts/                deploy.sh, prove.sh, start-match.sh
 ```
 
@@ -43,9 +43,9 @@ pnpm build:wasm
 
 # Tests
 bun test packages/sim                                          # 64 TS sim tests
-cargo test -p chickenz-core --manifest-path services/prover/Cargo.toml # 49 Rust core tests
+cargo test -p proofstrike-core --manifest-path services/prover/Cargo.toml # 49 Rust core tests
 bun test services/server                                               # 311 server tests
-cd contracts/chickenz && cargo test                                     # 20 Soroban contract tests
+cd contracts/proofstrike && cargo test                                     # 20 Soroban contract tests
 
 # Lint & format
 pnpm lint                  # ESLint (errors on any, unused vars, floating promises)
@@ -82,8 +82,8 @@ Server requires these in `.env` at the project root (see `.env.example`):
 **Every time the sim is updated** (`services/prover/core/src/` — physics, types, constants, weapons, etc.), ALL of the following must be rebuilt/updated:
 
 1. **WASM** (client + server): `pnpm build:wasm`
-2. **Prover worker**: rebuild `chickenz-host` on the x86 Linux machine running the worker
-3. **Get canonical image ID**: `chickenz-host --image-id` (must use x86 Linux build — see ARM note below)
+2. **Prover worker**: rebuild `proofstrike-host` on the x86 Linux machine running the worker
+3. **Get canonical image ID**: `proofstrike-host --image-id` (must use x86 Linux build — see ARM note below)
 4. **Update contract**: `stellar contract invoke --id <CONTRACT> --source default --rpc-url https://soroban-testnet.stellar.org --network-passphrase "Test SDF Network ; September 2015" -- set_image_id --image_id <NEW_ID>`
 5. **Update client display** (optional): `GUEST_IMAGE_ID` in `apps/client/src/main.ts`
 6. **Deploy to production servers**: `./scripts/deploy.sh server`
@@ -132,7 +132,7 @@ See [ZK_SETTLEMENT.md](ZK_SETTLEMENT.md) for full details.
 
 ## Stellar Integration
 
-See contract source in `contracts/chickenz/src/lib.rs`.
+See contract source in `contracts/proofstrike/src/lib.rs`.
 
 - `start_game()` at match start, `end_game()` after ZK proof verifies outcome
 - Wallet: passkey-based smart accounts via OpenZeppelin Smart Account Kit
@@ -161,16 +161,16 @@ Hidden matchmaking rating for casual/bot matches. Stored in `casual_elo` table (
 
 ## Tutorial
 
-- **First-time detection**: `localStorage.getItem("chickenz-tutorial-done")`
+- **First-time detection**: `localStorage.getItem("proofstrike-tutorial-done")`
 - **8 steps**: movement → jump → double jump → weapon pickup → shoot → stomp escape → kill → done
 - **Completion tracking**: per-step conditions (movement ticks, jump detected, double jump, weapon pickup, shot fired, stomp escape, P2 killed, auto-advance timer)
 - **Integration**: `tutorial.tick()` called each WASM tick from GameScene, returns P2 input + optional state modifier
 
 ## Audio System
 
-- **SFX**: always on by default, volume controlled by `chickenz-sfx-volume` (0-100)
-- **Music (BGM)**: off by default, toggled independently via `chickenz-music-muted`
-- **Migration**: old `chickenz-muted` key migrated on first load via `chickenz-audio-migrated` flag
+- **SFX**: always on by default, volume controlled by `proofstrike-sfx-volume` (0-100)
+- **Music (BGM)**: off by default, toggled independently via `proofstrike-music-muted`
+- **Migration**: old `proofstrike-muted` key migrated on first load via `proofstrike-audio-migrated` flag
 - **Top bar icon**: musical note, click toggles music only (not SFX)
 
 ## Shareable Links

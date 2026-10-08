@@ -3,7 +3,7 @@ import { gameConfig, recalcDimensions } from "./game";
 import { GameScene } from "./scenes/GameScene";
 import { TouchControls } from "./input/TouchControls";
 import { Tutorial } from "./tutorial/Tutorial";
-import { initChickenzWasm } from "./wasm";
+import { initProofStrikeWasm } from "./wasm";
 
 import { type GameMode } from "./net/NetworkManager";
 import { RegionManager, type RegionPing } from "./net/RegionManager";
@@ -25,8 +25,8 @@ const NUM_CHARACTERS = 4;
 
 // ── Character preferences (home/away) ────────────────────────────────────────
 {
-  let h = parseInt(localStorage.getItem("chickenz-home-char") ?? "0", 10);
-  let a = parseInt(localStorage.getItem("chickenz-away-char") ?? "1", 10);
+  let h = parseInt(localStorage.getItem("proofstrike-home-char") ?? "0", 10);
+  let a = parseInt(localStorage.getItem("proofstrike-away-char") ?? "1", 10);
   if (!Number.isFinite(h) || h < 0 || h >= NUM_CHARACTERS) h = 0;
   if (!Number.isFinite(a) || a < 0 || a >= NUM_CHARACTERS) a = 1;
   if (a === h) a = (h + 1) % NUM_CHARACTERS;
@@ -132,7 +132,7 @@ matchDetailClose.addEventListener("click", () => {
 });
 
 // ── WASM init ─────────────────────────────────────────────────────────────────
-await initChickenzWasm();
+await initProofStrikeWasm();
 
 // ── Phaser ─────────────────────────────────────────────────────────────────────
 
@@ -259,7 +259,7 @@ function flushPendingActions() {
 }
 
 function saveUsername(name: string) {
-  localStorage.setItem("chickenz-username", name);
+  localStorage.setItem("proofstrike-username", name);
   session.currentUsername = name;
   topBarUsername.textContent = name;
 }
@@ -295,7 +295,7 @@ const hasJoinParam = new URLSearchParams(window.location.search).has("join");
   deferBGMStart();
 
   // Optimistic wallet UI from localStorage (avoids flash of Log In / Register)
-  const cachedAddr = localStorage.getItem("chickenz-wallet-address");
+  const cachedAddr = localStorage.getItem("proofstrike-wallet-address");
   if (cachedAddr) {
     topBarAddress.textContent = truncateAddress(cachedAddr);
     walletLoginBtn.textContent = "Disconnect";
@@ -412,14 +412,14 @@ function showUsernamePrompt() {
 
 function setMode(mode: GameMode) {
   session.currentMode = mode;
-  localStorage.setItem("chickenz-mode", mode);
+  localStorage.setItem("proofstrike-mode", mode);
   modeCasualBtn.classList.toggle("active", mode === "casual");
   modeRankedBtn.classList.toggle("active", mode === "ranked");
 }
 
 // Restore saved mode preference
 {
-  const saved = localStorage.getItem("chickenz-mode") as GameMode | null;
+  const saved = localStorage.getItem("proofstrike-mode") as GameMode | null;
   if (saved === "ranked" || saved === "casual") {
     session.currentMode = saved;
     modeCasualBtn.classList.toggle("active", saved === "casual");
@@ -795,9 +795,9 @@ window.addEventListener("replayEnded", () => {
 
   if (joinCode) {
     // Skip if this was the user's own room (e.g. page refresh) — room is gone
-    const lastOwnCode = localStorage.getItem("chickenz-last-join-code");
+    const lastOwnCode = localStorage.getItem("proofstrike-last-join-code");
     if (lastOwnCode && lastOwnCode.toUpperCase() === joinCode.toUpperCase()) {
-      localStorage.removeItem("chickenz-last-join-code");
+      localStorage.removeItem("proofstrike-last-join-code");
     } else {
       // Auto-join via code after connection is ready
       const waitJoin = setInterval(() => {

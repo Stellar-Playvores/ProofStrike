@@ -7,9 +7,15 @@ export interface RegionConfig {
 }
 
 export const REGIONS: RegionConfig[] = [
-  { id: "eu", name: "Europe", flag: "EU", wsUrl: "wss://eu.chickenz.io/ws", httpUrl: "https://eu.chickenz.io" },
-  { id: "us", name: "US", flag: "US", wsUrl: "wss://us.chickenz.io/ws", httpUrl: "https://us.chickenz.io" },
-  { id: "asia", name: "Asia", flag: "AS", wsUrl: "wss://asia.chickenz.io/ws", httpUrl: "https://asia.chickenz.io" },
+  { id: "eu", name: "Europe", flag: "EU", wsUrl: "wss://eu.proofstrike.io/ws", httpUrl: "https://eu.proofstrike.io" },
+  { id: "us", name: "US", flag: "US", wsUrl: "wss://us.proofstrike.io/ws", httpUrl: "https://us.proofstrike.io" },
+  {
+    id: "asia",
+    name: "Asia",
+    flag: "AS",
+    wsUrl: "wss://asia.proofstrike.io/ws",
+    httpUrl: "https://asia.proofstrike.io",
+  },
 ];
 
 export function getRegions(): RegionConfig[] {

@@ -61,7 +61,7 @@ export function connectToServer(url: string, deps: ServerConnectorDeps): Promise
       onWaiting(roomId, roomName, joinCode) {
         if (session.currentTournamentId) return;
         history.replaceState(null, "", "?join=" + joinCode);
-        localStorage.setItem("chickenz-last-join-code", joinCode);
+        localStorage.setItem("proofstrike-last-join-code", joinCode);
         lobbyAPI.close();
         const botBtn = document.getElementById("btn-add-bot");
         if (botBtn) botBtn.style.display = session.currentMode === "ranked" ? "none" : "";

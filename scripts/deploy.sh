@@ -23,7 +23,7 @@ declare -A SERVERS=(
   [asia]="$ASIA_SERVER"
 )
 
-REMOTE_DIR="/root/chickenz"
+REMOTE_DIR="/root/proofstrike"
 SSH_OPTS="-o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -71,21 +71,21 @@ deploy_to_server() {
   if [ "$MODE" = "server" ] || [ "$MODE" = "both" ]; then
     log "[$region] Uploading WASM pkg..."
     ssh $SSH_OPTS "$server" "mkdir -p $REMOTE_DIR/services/prover/wasm/pkg"
-    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/chickenz_wasm_bg.wasm" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
-    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/chickenz_wasm.js" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
-    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/chickenz_wasm.d.ts" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
+    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/proofstrike_wasm_bg.wasm" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
+    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/proofstrike_wasm.js" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
+    scp $SSH_OPTS "$PROJECT_ROOT/services/prover/wasm/pkg/proofstrike_wasm.d.ts" "$server:$REMOTE_DIR/services/prover/wasm/pkg/"
   fi
 
   if [ "$MODE" = "server" ] || [ "$MODE" = "both" ] || [ "$MODE" = "prover" ]; then
     log "[$region] Building prover binary..."
-    ssh $SSH_OPTS "$server" "source ~/.cargo/env && cd $REMOTE_DIR/services/prover && cargo build -p chickenz-host --release --features boundless 2>&1 | tail -5"
+    ssh $SSH_OPTS "$server" "source ~/.cargo/env && cd $REMOTE_DIR/services/prover && cargo build -p proofstrike-host --release --features boundless 2>&1 | tail -5"
   fi
 
   if [ "$MODE" = "server" ] || [ "$MODE" = "both" ]; then
-    log "[$region] Restarting chickenz systemd unit..."
+    log "[$region] Restarting proofstrike systemd unit..."
     # systemctl targets the unit's MainPID — does not affect other bun processes
     # on shared hosts. Never use pkill -f 'bun.*' here.
-    ssh $SSH_OPTS "$server" "systemctl restart chickenz && sleep 2 && systemctl is-active chickenz && tail -5 /var/log/chickenz/server.log"
+    ssh $SSH_OPTS "$server" "systemctl restart proofstrike && sleep 2 && systemctl is-active proofstrike && tail -5 /var/log/proofstrike/server.log"
   fi
 
   log "[$region] Done."

@@ -6,7 +6,7 @@ import { createLogger } from "./logger";
 
 const log = createLogger("prover");
 const PROVER_BINARY =
-  process.env.PROVER_BINARY || resolve(import.meta.dir, "../../prover/target/release/chickenz-host");
+  process.env.PROVER_BINARY || resolve(import.meta.dir, "../../prover/target/release/proofstrike-host");
 const WORKER_TIMEOUT_MS = 60_000; // worker considered offline after 60s without poll
 
 export interface ProofArtifacts {
@@ -153,7 +153,7 @@ export async function proveBoundless(
   onRequestId?: (requestId: string) => void,
   onTxHash?: (txHash: string) => void,
 ): Promise<ProofArtifacts | null> {
-  const workDir = join(tmpdir(), `chickenz-prove-${matchId}`);
+  const workDir = join(tmpdir(), `proofstrike-prove-${matchId}`);
   const inputPath = join(workDir, "input.json");
   const outputPath = join(workDir, "proof_artifacts.json");
 

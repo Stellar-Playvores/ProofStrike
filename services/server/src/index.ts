@@ -182,7 +182,7 @@ async function pinTranscriptToIPFS(matchId: string, transcript: object) {
       },
       body: JSON.stringify({
         pinataContent: transcript,
-        pinataMetadata: { name: `chickenz-transcript-${matchId}` },
+        pinataMetadata: { name: `proofstrike-transcript-${matchId}` },
       }),
     });
     if (!res.ok) {
@@ -667,7 +667,8 @@ const server = Bun.serve<SocketData>({
       return Response.json(
         {
           ...record,
-          contractAddress: process.env.CHICKENZ_CONTRACT || "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG",
+          contractAddress:
+            process.env.PROOFSTRIKE_CONTRACT || "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG",
           verifierAddress: "CDUDXCLMNE7Q4BZJLLB3KACFOS55SS55GSQW2UYHDUXTJKZUDDAJYCIH",
           gameHubAddress: "CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG",
         },
@@ -922,7 +923,7 @@ const server = Bun.serve<SocketData>({
       const activeRoomList = [...rooms.values()].filter((r) => !r.isEnded());
       return Response.json(
         {
-          name: "chickenz-server",
+          name: "proofstrike-server",
           region: process.env.SERVER_REGION || "unknown",
           uptimeSeconds: Math.floor((Date.now() - SERVER_START_TIME) / 1000),
           activeRooms: activeRoomList.length,

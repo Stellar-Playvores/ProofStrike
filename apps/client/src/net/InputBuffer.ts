@@ -1,5 +1,5 @@
-import type { PlayerInput } from "@chickenz/sim";
-import { NULL_INPUT } from "@chickenz/sim";
+import type { PlayerInput } from "@proofstrike/sim";
+import { NULL_INPUT } from "@proofstrike/sim";
 
 const MAX_BUFFER_SIZE = 120; // ~2 seconds at 60Hz
 

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import type { GameMap } from "@chickenz/sim";
+import type { GameMap } from "@proofstrike/sim";
 import { BG_KEYS, TERRAIN_COLS, getTerrainFrame } from "./constants";
 
 export interface MapTileResult {

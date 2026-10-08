@@ -87,7 +87,7 @@ export function renderMatchDetail(m: MatchRecord, container: HTMLElement, callba
     addStep(
       "start_match TX",
       m.matchStartTime,
-      `<span class="tl-badge">Chickenz</span><a class="tl-link" href="${explorerTxUrl(m.startTxHash)}" target="_blank" rel="noopener">View TX</a>`,
+      `<span class="tl-badge">ProofStrike</span><a class="tl-link" href="${explorerTxUrl(m.startTxHash)}" target="_blank" rel="noopener">View TX</a>`,
     );
     addStep(
       "start_game TX",
@@ -137,7 +137,7 @@ export function renderMatchDetail(m: MatchRecord, container: HTMLElement, callba
       addStep(
         "settle_match TX",
         m.proofCompletedAt,
-        `<span class="tl-badge">Chickenz</span><a class="tl-link" href="${explorerTxUrl(m.settleTxHash)}" target="_blank" rel="noopener">View TX</a>`,
+        `<span class="tl-badge">ProofStrike</span><a class="tl-link" href="${explorerTxUrl(m.settleTxHash)}" target="_blank" rel="noopener">View TX</a>`,
       );
       addStep(
         "end_game TX",

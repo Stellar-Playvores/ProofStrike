@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { PLAYER_WIDTH, PLAYER_HEIGHT, TICK_DT_MS } from "@chickenz/sim";
-import type { GameMap } from "@chickenz/sim";
+import { PLAYER_WIDTH, PLAYER_HEIGHT, TICK_DT_MS } from "@proofstrike/sim";
+import type { GameMap } from "@proofstrike/sim";
 import { WasmState } from "../wasm";
 import { InputManager } from "../input/InputManager";
 import type { EditorMap } from "./types";

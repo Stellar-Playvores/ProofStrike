@@ -65,7 +65,7 @@ jobs:
         run: pnpm test
 
       - name: Build client
-        run: pnpm --filter @chickenz/client build
+        run: pnpm --filter @proofstrike/client build
 
   e2e:
     name: E2E Tests
@@ -111,7 +111,7 @@ jobs:
         run: pnpm build:wasm
 
       - name: Build client
-        run: pnpm --filter @chickenz/client build
+        run: pnpm --filter @proofstrike/client build
 
       - name: Run E2E tests
         run: pnpm test:e2e
@@ -135,9 +135,9 @@ jobs:
       fail-fast: false
       matrix:
         server:
-          - { ip: "178.156.244.26", region: "us",   domain: "us.chickenz.io" }
-          - { ip: "89.167.92.60",   region: "eu",   domain: "eu.chickenz.io" }
-          - { ip: "5.223.61.107",   region: "asia", domain: "asia.chickenz.io" }
+          - { ip: "178.156.244.26", region: "us",   domain: "us.proofstrike.io" }
+          - { ip: "89.167.92.60",   region: "eu",   domain: "eu.proofstrike.io" }
+          - { ip: "5.223.61.107",   region: "asia", domain: "asia.proofstrike.io" }
     steps:
       - uses: actions/checkout@v4
 
@@ -173,7 +173,7 @@ jobs:
         run: pnpm build:wasm
 
       - name: Build client
-        run: pnpm --filter @chickenz/client build
+        run: pnpm --filter @proofstrike/client build
 
       - name: Set up SSH
         env:
@@ -189,23 +189,23 @@ jobs:
 
       - name: Upload client → ${{ matrix.server.region }}
         run: |
-          ssh root@${{ matrix.server.ip }} "mkdir -p /root/chickenz/services/server/public"
-          scp -r services/server/public/* root@${{ matrix.server.ip }}:/root/chickenz/services/server/public/
+          ssh root@${{ matrix.server.ip }} "mkdir -p /root/proofstrike/services/server/public"
+          scp -r services/server/public/* root@${{ matrix.server.ip }}:/root/proofstrike/services/server/public/
 
       - name: Upload WASM → ${{ matrix.server.region }}
         run: |
-          ssh root@${{ matrix.server.ip }} "mkdir -p /root/chickenz/services/prover/wasm/pkg"
-          scp services/prover/wasm/pkg/chickenz_wasm_bg.wasm \
-              services/prover/wasm/pkg/chickenz_wasm.js \
-              services/prover/wasm/pkg/chickenz_wasm.d.ts \
-              root@${{ matrix.server.ip }}:/root/chickenz/services/prover/wasm/pkg/
+          ssh root@${{ matrix.server.ip }} "mkdir -p /root/proofstrike/services/prover/wasm/pkg"
+          scp services/prover/wasm/pkg/proofstrike_wasm_bg.wasm \
+              services/prover/wasm/pkg/proofstrike_wasm.js \
+              services/prover/wasm/pkg/proofstrike_wasm.d.ts \
+              root@${{ matrix.server.ip }}:/root/proofstrike/services/prover/wasm/pkg/
 
       - name: Pull & install → ${{ matrix.server.region }}
         run: |
-          ssh root@${{ matrix.server.ip }} "cd /root/chickenz && git pull origin main 2>&1 | tail -3 && pnpm install --frozen-lockfile 2>&1 | tail -3"
+          ssh root@${{ matrix.server.ip }} "cd /root/proofstrike && git pull origin main 2>&1 | tail -3 && pnpm install --frozen-lockfile 2>&1 | tail -3"
 
       - name: Restart → ${{ matrix.server.region }}
-        run: ssh root@${{ matrix.server.ip }} "systemctl restart chickenz"
+        run: ssh root@${{ matrix.server.ip }} "systemctl restart proofstrike"
 
       - name: Verify ${{ matrix.server.region }} is up
         run: |

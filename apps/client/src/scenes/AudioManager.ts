@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { WeaponType, PlayerStateFlag } from "@chickenz/sim";
+import { WeaponType, PlayerStateFlag } from "@proofstrike/sim";
 import type { StateMessage } from "../../../../services/server/src/protocol";
 import { playSFX } from "../audio/sfx";
 

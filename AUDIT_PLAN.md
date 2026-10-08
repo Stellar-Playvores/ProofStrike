@@ -1,8 +1,8 @@
-# Chickenz Codebase Audit Plan
+# ProofStrike Codebase Audit Plan
 
 ## Overview
 
-Comprehensive audit of the Chickenz real-time multiplayer platformer shooter — covering client (Phaser/TypeScript), server (Bun), game simulation (Rust/WASM), ZK proving (RISC Zero), and smart contracts (Soroban).
+Comprehensive audit of the ProofStrike real-time multiplayer platformer shooter — covering client (Phaser/TypeScript), server (Bun), game simulation (Rust/WASM), ZK proving (RISC Zero), and smart contracts (Soroban).
 
 ---
 
@@ -45,7 +45,7 @@ Comprehensive audit of the Chickenz real-time multiplayer platformer shooter —
 
 ### 1.7 Contract Security (Soroban)
 
-- `contracts/chickenz/src/lib.rs` — full contract
+- `contracts/proofstrike/src/lib.rs` — full contract
 - Check: admin require_auth on all gated functions, settle_match open to anyone (by design), TTL expiration risk, upgrade trust assumption, journal endianness, negative winner decoding
 
 ### 1.8 CORS and Origin Validation
@@ -86,7 +86,7 @@ Comprehensive audit of the Chickenz real-time multiplayer platformer shooter —
 - `services/server/src/prover.ts` — proof orchestration
 - `services/prover/host/src/main.rs`, `guest/src/main.rs`
 - `services/prover/core/src/fp.rs` — run_streaming_multi
-- `contracts/chickenz/src/lib.rs` — settle_match
+- `contracts/proofstrike/src/lib.rs` — settle_match
 - Check: transcript format matching, Taunt bit stripping, seed commitment consistency, journal layout consistency, dual-prover race settleOnce
 
 ### 2.5 Scoring and ELO
@@ -224,7 +224,7 @@ Comprehensive audit of the Chickenz real-time multiplayer platformer shooter —
 - `services/server/src/` — 311 server tests (GameRoom 98, TournamentRoom 71, DB 56, Protocol 44, Prover 42)
 - `packages/sim/__tests__/` — 64 TS sim tests (PRNG, replay, step, physics)
 - `services/prover/core/src/` — 49 Rust core tests (fp, step, weapons, physics, prng, projectiles, hash, init)
-- `contracts/chickenz/src/test.rs` — 20 contract tests
+- `contracts/proofstrike/src/test.rs` — 20 contract tests
 
 ### 9.2 Missing Tests
 
@@ -242,7 +242,7 @@ Comprehensive audit of the Chickenz real-time multiplayer platformer shooter —
 
 ### 10.2 Server
 
-- Bun runtime, @stellar/stellar-sdk (dynamic), @chickenz/sim (workspace)
+- Bun runtime, @stellar/stellar-sdk (dynamic), @proofstrike/sim (workspace)
 - Check: minimal deps, dynamic import version
 
 ### 10.3 Rust

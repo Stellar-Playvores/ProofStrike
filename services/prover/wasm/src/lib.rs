@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use chickenz_core::fp::{
+use proofstrike_core::fp::{
     self, State, Map, Platform, SpawnPoint, FpInput, Player, Projectile, WeaponPickup,
     NUM_PLATFORMS, NUM_SPAWNS, NUM_WEAPON_SPAWNS,
     MAX_PROJECTILES, MAX_WEAPON_PICKUPS,

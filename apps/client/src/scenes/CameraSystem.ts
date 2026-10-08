@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { PLAYER_WIDTH, PLAYER_HEIGHT, PlayerStateFlag } from "@chickenz/sim";
-import type { MatchConfig } from "@chickenz/sim";
+import { PLAYER_WIDTH, PLAYER_HEIGHT, PlayerStateFlag } from "@proofstrike/sim";
+import type { MatchConfig } from "@proofstrike/sim";
 import type { StateMessage } from "../../../../services/server/src/protocol";
 import { DPR, VIEW_W, VIEW_H } from "../game";
 import { lerp, smoothLerp } from "./constants";

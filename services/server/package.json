@@ -1,5 +1,5 @@
 {
-  "name": "@chickenz/server",
+  "name": "@proofstrike/server",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -7,7 +7,7 @@
     "start": "bun src/index.ts"
   },
   "dependencies": {
-    "@chickenz/sim": "workspace:*",
+    "@proofstrike/sim": "workspace:*",
     "@stellar/stellar-sdk": "^15.1.0"
   },
   "devDependencies": {

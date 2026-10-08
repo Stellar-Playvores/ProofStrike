@@ -1,6 +1,6 @@
 import type { ServerWebSocket } from "bun";
-import { MAP_POOL, TICK_RATE, NULL_INPUT } from "@chickenz/sim";
-import type { GameMap, PlayerInput } from "@chickenz/sim";
+import { MAP_POOL, TICK_RATE, NULL_INPUT } from "@proofstrike/sim";
+import type { GameMap, PlayerInput } from "@proofstrike/sim";
 import type { StateMessage, EndedMessage, RoomInfo, GameMode } from "./protocol";
 import { inputFromMessage, generateJoinCode, type InputMessage } from "./protocol";
 import { WasmState } from "./wasm";

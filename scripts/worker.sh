@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Chickenz proof worker — polls ALL region servers for proof jobs and generates Groth16 proofs locally.
-# Run this on your gaming PC with the chickenz-host binary built.
+# ProofStrike proof worker — polls ALL region servers for proof jobs and generates Groth16 proofs locally.
+# Run this on your gaming PC with the proofstrike-host binary built.
 #
 # Usage:
 #   ./scripts/worker.sh                    # polls all region servers
@@ -9,7 +9,7 @@
 # Optional env overrides:
 #   SERVER_URL    — override with single server URL
 #   WORKER_API_KEY — auth key (required)
-#   PROVER_BINARY — path to chickenz-host (default: services/prover/target/release/chickenz-host)
+#   PROVER_BINARY — path to proofstrike-host (default: services/prover/target/release/proofstrike-host)
 #   POLL_INTERVAL — seconds between polls (default: 5)
 
 set -euo pipefail
@@ -18,18 +18,18 @@ set -euo pipefail
 if [[ -n "${SERVER_URL:-}" ]]; then
   SERVERS="$SERVER_URL"
 else
-  SERVERS="https://eu.chickenz.io https://us.chickenz.io https://asia.chickenz.io"
+  SERVERS="https://eu.proofstrike.io https://us.proofstrike.io https://asia.proofstrike.io"
 fi
 
 WORKER_API_KEY="${WORKER_API_KEY:?Set WORKER_API_KEY}"
 POLL_INTERVAL="${POLL_INTERVAL:-5}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROVER_BINARY="${PROVER_BINARY:-$SCRIPT_DIR/../services/prover/target/release/chickenz-host}"
+PROVER_BINARY="${PROVER_BINARY:-$SCRIPT_DIR/../services/prover/target/release/proofstrike-host}"
 
 if [[ ! -x "$PROVER_BINARY" ]]; then
   echo "ERROR: Prover binary not found at $PROVER_BINARY"
-  echo "Build it with: cd services/prover && cargo build -p chickenz-host --release"
+  echo "Build it with: cd services/prover && cargo build -p proofstrike-host --release"
   exit 1
 fi
 
@@ -46,7 +46,7 @@ curl_auth() {
   fi
 }
 
-echo "Chickenz proof worker starting"
+echo "ProofStrike proof worker starting"
 echo "  Servers: $SERVERS"
 echo "  Binary: $PROVER_BINARY"
 echo "  Poll interval: ${POLL_INTERVAL}s"
@@ -65,7 +65,7 @@ while true; do
     echo "[$(date +%H:%M:%S)] Job from $SERVER_URL: $MATCH_ID"
 
     # Download transcript
-    TMPFILE=$(mktemp /tmp/chickenz-worker-XXXXXX.json)
+    TMPFILE=$(mktemp /tmp/proofstrike-worker-XXXXXX.json)
     if ! curl_auth -o "$TMPFILE" "$SERVER_URL/api/worker/input/$MATCH_ID"; then
       echo "  Failed to download transcript"
       rm -f "$TMPFILE"
@@ -73,8 +73,8 @@ while true; do
     fi
 
     # Run proof (Groth16 by default — no --local flag)
-    ARTIFACTS_FILE=$(mktemp /tmp/chickenz-artifacts-XXXXXX.json)
-    STDERR_FILE=$(mktemp /tmp/chickenz-stderr-XXXXXX.log)
+    ARTIFACTS_FILE=$(mktemp /tmp/proofstrike-artifacts-XXXXXX.json)
+    STDERR_FILE=$(mktemp /tmp/proofstrike-stderr-XXXXXX.log)
     echo "  Proving..."
     PROOF_START=$(date +%s)
 

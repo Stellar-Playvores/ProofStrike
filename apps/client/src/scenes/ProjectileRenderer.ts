@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 import type { StateMessage, SerializedProjectile } from "../../../../services/server/src/protocol";
-import { WEAPON_STATS, WeaponType } from "@chickenz/sim";
+import { WEAPON_STATS, WeaponType } from "@proofstrike/sim";
 import { GUN_CONFIG } from "./constants";
-import { PLAYER_WIDTH } from "@chickenz/sim";
+import { PLAYER_WIDTH } from "@proofstrike/sim";
 
 /** Game state data — shared shape of StateMessage, SpectateStateMessage, and WASM exports */
 type GameStateData = Omit<StateMessage, "type">;

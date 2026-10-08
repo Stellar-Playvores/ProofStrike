@@ -50,7 +50,7 @@ export interface ProofArtifacts {
 const DATA_DIR = join(dirname(import.meta.dir), "data");
 mkdirSync(DATA_DIR, { recursive: true });
 
-const db = new Database(join(DATA_DIR, "chickenz.db"));
+const db = new Database(join(DATA_DIR, "proofstrike.db"));
 db.exec("PRAGMA journal_mode=WAL");
 
 db.exec(`
@@ -589,7 +589,7 @@ const MAX_BACKUPS = 7; // keep one week of daily backups
 export function backupDatabase(): void {
   mkdirSync(BACKUP_DIR, { recursive: true });
   const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-  const dest = join(BACKUP_DIR, `chickenz-${date}.db`);
+  const dest = join(BACKUP_DIR, `proofstrike-${date}.db`);
   const data = db.serialize();
   Bun.write(dest, data).catch(() => {
     // Best-effort — do not crash server on backup failure
@@ -598,7 +598,7 @@ export function backupDatabase(): void {
   // Prune old backups (keep MAX_BACKUPS most recent)
   try {
     const files = readdirSync(BACKUP_DIR)
-      .filter((f) => f.startsWith("chickenz-") && f.endsWith(".db"))
+      .filter((f) => f.startsWith("proofstrike-") && f.endsWith(".db"))
       .sort();
     for (let i = 0; i < files.length - MAX_BACKUPS; i++) {
       try {

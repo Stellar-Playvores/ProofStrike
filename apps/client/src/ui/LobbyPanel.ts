@@ -100,7 +100,7 @@ export function initLobbyPanel(deps: LobbyPanelDeps): LobbyPanelAPI {
 
     // Clear join code from URL bar and localStorage
     history.replaceState(null, "", window.location.pathname);
-    localStorage.removeItem("chickenz-last-join-code");
+    localStorage.removeItem("proofstrike-last-join-code");
 
     // Hide touch controls and tutorial when returning to lobby
     if (isTouchDevice) getTouchControls().hide();

@@ -39,7 +39,7 @@ export function initWalletController(deps: WalletControllerDeps): WalletControll
 
   /** Get the per-region wallet token storage key. */
   function walletTokenKey(): string {
-    return `chickenz-wallet-token-${session.activeRegionId || "default"}`;
+    return `proofstrike-wallet-token-${session.activeRegionId || "default"}`;
   }
 
   /** Try to revalidate using a stored token (no passkey prompt). */
@@ -120,7 +120,7 @@ export function initWalletController(deps: WalletControllerDeps): WalletControll
       walletLoginBtn.style.display = "";
       walletRegisterBtn.style.display = "none";
       modeRankedBtn.classList.remove("locked");
-      localStorage.setItem("chickenz-wallet-address", addr);
+      localStorage.setItem("proofstrike-wallet-address", addr);
       // Notify server of wallet address (verification deferred until ranked play)
       session.networkManager?.sendSetWallet(addr);
       // Re-render room list so ranked join buttons update
@@ -136,7 +136,7 @@ export function initWalletController(deps: WalletControllerDeps): WalletControll
       session.networkManager?.sendSetWallet("");
       session.lastVerifiedAddr = null;
       localStorage.removeItem(walletTokenKey());
-      localStorage.removeItem("chickenz-wallet-address");
+      localStorage.removeItem("proofstrike-wallet-address");
       // Leave ranked room/lobby if wallet disconnected
       if (session.currentMode === "ranked") {
         session.networkManager?.sendLeave();

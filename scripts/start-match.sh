@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Chickenz Start Match On-Chain
+# ProofStrike Start Match On-Chain
 # Usage: ./scripts/start-match.sh <session_id> <seed> [player2_address]
 #
 # Registers a match on the Game Hub with the given seed commitment.
 # If player2_address is omitted, uses the same address as player1 (testing).
 
-CHICKENZ_CONTRACT="CDYU5GFNDBIFYWLW54QV3LPDNQTER6ID3SK4QCCBVUY7NU76ESBP7LZP"
+PROOFSTRIKE_CONTRACT="CDYU5GFNDBIFYWLW54QV3LPDNQTER6ID3SK4QCCBVUY7NU76ESBP7LZP"
 NETWORK="testnet"
 SOURCE="${STELLAR_SOURCE:-default}"
 
@@ -34,18 +34,18 @@ print(hashlib.sha256(seed).hexdigest())
 PLAYER1=$(stellar keys address "$SOURCE" 2>/dev/null)
 PLAYER2="${3:-$PLAYER1}"
 
-echo "=== Chickenz Start Match ==="
+echo "=== ProofStrike Start Match ==="
 echo "Session ID:  $SESSION_ID"
 echo "Seed:        $SEED"
 echo "Seed commit: $SEED_COMMIT"
 echo "Player 1:    $PLAYER1"
 echo "Player 2:    $PLAYER2"
-echo "Contract:    $CHICKENZ_CONTRACT"
+echo "Contract:    $PROOFSTRIKE_CONTRACT"
 echo ""
 
 echo "Calling start_match()..."
 stellar contract invoke \
-    --id "$CHICKENZ_CONTRACT" \
+    --id "$PROOFSTRIKE_CONTRACT" \
     --source "$SOURCE" \
     --network "$NETWORK" \
     -- start_match \

@@ -1,5 +1,5 @@
-import type { PlayerInput } from "@chickenz/sim";
-import { NULL_INPUT } from "@chickenz/sim";
+import type { PlayerInput } from "@proofstrike/sim";
+import { NULL_INPUT } from "@proofstrike/sim";
 import type { StateMessage } from "../../../../services/server/src/protocol";
 /** Game state data — shared shape of StateMessage, SpectateStateMessage, and WASM exports */
 type GameStateData = Omit<StateMessage, "type">;

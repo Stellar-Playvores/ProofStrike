@@ -1,9 +1,9 @@
 //! Generates test transcript JSON files for the prover host.
 //!
 //! Usage:
-//!   cargo run -p chickenz-core --example gen-transcript -- [idle|combat] > transcript.json
+//!   cargo run -p proofstrike-core --example gen-transcript -- [idle|combat] > transcript.json
 
-use chickenz_core::*;
+use proofstrike_core::*;
 
 fn main() {
     let mode = std::env::args().nth(1).unwrap_or_else(|| "idle".to_string());

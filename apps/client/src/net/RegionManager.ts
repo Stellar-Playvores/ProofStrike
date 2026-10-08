@@ -37,7 +37,7 @@ function median(arr: number[]): number {
   return sorted.length % 2 !== 0 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2;
 }
 
-const LOBBY_STORAGE_KEY = "chickenz-home-region";
+const LOBBY_STORAGE_KEY = "proofstrike-home-region";
 const PING_REFRESH_INTERVAL = 30_000;
 
 export class RegionManager {

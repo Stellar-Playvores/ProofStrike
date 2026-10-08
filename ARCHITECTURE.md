@@ -1,6 +1,6 @@
 # Architecture
 
-Chickenz is a competitive 2D multiplayer platform shooter with ZK-provable outcomes settled on Stellar Soroban.
+ProofStrike is a competitive 2D multiplayer platform shooter with ZK-provable outcomes settled on Stellar Soroban.
 
 Core loop: play match online → server records transcript → generate RISC Zero ZK proof → settle on-chain via Game Hub.
 
@@ -23,7 +23,7 @@ services/prover/
   wasm/                 WASM crate — wasm-bindgen wrapper (used by client + server)
   guest/                RISC Zero guest (multi-round, ~234K cycles/round)
   host/                 Orchestration (monolithic + Boundless modes)
-contracts/chickenz/     Soroban game contract + Groth16 verification (deployed, 20 tests)
+contracts/proofstrike/     Soroban game contract + Groth16 verification (deployed, 20 tests)
 ```
 
 ---
@@ -89,7 +89,7 @@ Browser                          Server                    Blockchain
 
 ```
 ┌─────────────┐     start_game()     ┌──────────────┐
-│  Chickenz    │ ──────────────────→  │  Game Hub     │
+│  ProofStrike    │ ──────────────────→  │  Game Hub     │
 │  Contract    │                      │  (Testnet)    │
 │              │     end_game()       │               │
 │              │ ──────────────────→  │               │
@@ -149,8 +149,8 @@ Bot difficulty is driven by hidden **casual ELO** (default 800, K=24). Mapping: 
 
 SFX and music are independently controlled:
 
-- **SFX** (sound effects): always on by default, volume via `chickenz-sfx-volume`
-- **Music** (BGM): off by default, toggled via `chickenz-music-muted`
+- **SFX** (sound effects): always on by default, volume via `proofstrike-sfx-volume`
+- **Music** (BGM): off by default, toggled via `proofstrike-music-muted`
 - Top bar shows a musical note icon — toggles music only
 - `GameScene.setMusicMuted()` controls BGM; `playSound()`/`playSoundInterrupt()` always play SFX
 
@@ -178,7 +178,7 @@ First-time players see a 6-step guided tutorial during warmup:
 5. Sudden death info — auto-advance 3s
 6. Goal info — auto-advance 3s
 
-Tracked via `localStorage("chickenz-tutorial-done")`. Skip button available at every step.
+Tracked via `localStorage("proofstrike-tutorial-done")`. Skip button available at every step.
 
 ---
 

@@ -9,9 +9,9 @@ function captureErrors(page: Page): string[] {
 /** Navigate as a returning user (tutorial done, username set) to skip new-user gate flow. */
 async function gotoAsReturningUser(page: Page, url = "/") {
   await page.addInitScript(() => {
-    localStorage.setItem("chickenz-tutorial-done", "1");
-    if (!localStorage.getItem("chickenz-username")) {
-      localStorage.setItem("chickenz-username", "Tester");
+    localStorage.setItem("proofstrike-tutorial-done", "1");
+    if (!localStorage.getItem("proofstrike-username")) {
+      localStorage.setItem("proofstrike-username", "Tester");
     }
   });
   await page.goto(url);

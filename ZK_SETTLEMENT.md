@@ -82,13 +82,13 @@ Key decisions:
 ## Settlement Flow
 
 ```
-1. Match starts → server calls start_match(session_id, player1, player2, seed_commit) on Chickenz contract
+1. Match starts → server calls start_match(session_id, player1, player2, seed_commit) on ProofStrike contract
    → Contract calls Game Hub start_game() before gameplay begins
 2. Players play best-of-3 rounds → server records per-round transcripts
 3. Match ends → server extracts both winning rounds' transcripts
 4. Prover replays both winning rounds in RISC Zero zkVM
    → Produces Groth16 seal (260 bytes) + journal (76 bytes)
-5. Server calls settle_match(session_id, seal, journal) on Chickenz contract
+5. Server calls settle_match(session_id, seal, journal) on ProofStrike contract
    → Contract calls Groth16 verifier: verify(seal, image_id, sha256(journal))
    → Contract decodes journal: winner, round_wins, transcript_hash, seed_commit
    → Contract validates seed_commit matches value committed at match start
@@ -124,7 +124,7 @@ fn settle_match(
 
 | Contract | Address |
 |---|---|
-| Chickenz Game | `CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG` |
+| ProofStrike Game | `CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG` |
 | Groth16 Verifier | `CDUDXCLMNE7Q4BZJLLB3KACFOS55SS55GSQW2UYHDUXTJKZUDDAJYCIH` |
 | Game Hub | `CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG` |
 

@@ -51,7 +51,7 @@ export function initMatchActions(deps: MatchActionsDeps) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `chickenz-${roomId}.json`;
+        a.download = `proofstrike-${roomId}.json`;
         a.click();
         URL.revokeObjectURL(url);
       })

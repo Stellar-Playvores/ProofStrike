@@ -5,7 +5,7 @@ const TESTNET_RPC = "https://soroban-testnet.stellar.org";
 const TESTNET_PASSPHRASE = "Test SDF Network ; September 2015";
 
 // Deployed contract addresses (testnet)
-export const CHICKENZ_CONTRACT = "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG";
+export const PROOFSTRIKE_CONTRACT = "CBRDPRKUK3NH2HXOWSNZPG2ZSXXXZBR7GCMN7WLHWINMLNDCJ7NSREKG";
 export const GAME_HUB_CONTRACT = "CB4VZAT2U3UC6XFK3N23SKRF2NDCMP3QHJYMCHHFMZO7MRQO6DQ2EMYG";
 export const VERIFIER_CONTRACT = "CDUDXCLMNE7Q4BZJLLB3KACFOS55SS55GSQW2UYHDUXTJKZUDDAJYCIH";
 
@@ -19,7 +19,7 @@ let kit: SmartAccountKit | null = null;
 /** Returns the wallet address — from active SDK session or cached localStorage.
  *  For the lobby, the cached address is sufficient. SDK connection only needed for signing. */
 export function getConnectedAddress(): string | null {
-  return kit?.contractId ?? localStorage.getItem("chickenz-wallet-address") ?? null;
+  return kit?.contractId ?? localStorage.getItem("proofstrike-wallet-address") ?? null;
 }
 
 /** Returns true if the SDK has an active session (can sign transactions). */
@@ -62,7 +62,7 @@ export async function initPasskeyKit(): Promise<void> {
     accountWasmHash: ACCOUNT_WASM_HASH,
     webauthnVerifierAddress: WEBAUTHN_VERIFIER,
     rpId: window.location.hostname,
-    rpName: "Chickenz",
+    rpName: "ProofStrike",
     storage: new IndexedDBStorage(),
     ...(RELAYER_URL ? { relayerUrl: RELAYER_URL } : {}),
   });
@@ -78,12 +78,12 @@ export async function createWallet(username: string): Promise<string | null> {
   if (!kit) return null;
   try {
     // Create passkey + deploy on-chain (autoSubmit waits for confirmation)
-    const result = await kit.createWallet("Chickenz", username, { autoSubmit: true });
+    const result = await kit.createWallet("ProofStrike", username, { autoSubmit: true });
     if (result.submitResult && !result.submitResult.success) {
       console.error("[stellar] wallet deploy failed:", result.submitResult.error);
       return null;
     }
-    localStorage.removeItem("chickenz-wallet-disconnected");
+    localStorage.removeItem("proofstrike-wallet-disconnected");
     // Cache proof data for server verification (register path — no assertion needed)
     lastAuthProof = {
       address: result.contractId,
@@ -103,7 +103,7 @@ export async function createWallet(username: string): Promise<string | null> {
  *  If stored credential exists but contract isn't deployed, tries to deploy it silently. */
 export async function connectWallet(): Promise<string | null> {
   if (!kit) return null;
-  if (localStorage.getItem("chickenz-wallet-disconnected")) return null;
+  if (localStorage.getItem("proofstrike-wallet-disconnected")) return null;
   try {
     const result = await kit.connectWallet();
     if (result) {
@@ -137,7 +137,7 @@ export async function promptConnect(): Promise<string | null> {
   try {
     const result = await kit.connectWallet({ fresh: true });
     if (result) {
-      localStorage.removeItem("chickenz-wallet-disconnected");
+      localStorage.removeItem("proofstrike-wallet-disconnected");
       // Cache proof data for server verification (login path — includes assertion)
       const pubKey = result.credential?.publicKey;
       lastAuthProof = {
@@ -187,7 +187,7 @@ async function tryDeployPending(): Promise<string | null> {
       // Now try connecting again
       const connectResult = await kit.connectWallet({ credentialId: cred.credentialId });
       if (connectResult) {
-        localStorage.removeItem("chickenz-wallet-disconnected");
+        localStorage.removeItem("proofstrike-wallet-disconnected");
         lastAuthProof = {
           address: connectResult.contractId,
           credentialId: connectResult.credentialId,
@@ -207,8 +207,8 @@ async function tryDeployPending(): Promise<string | null> {
 /** Disconnect wallet and clear session (always works, even if SDK isn't connected). */
 export async function disconnectWallet(): Promise<void> {
   // Clear cached address first (so UI updates immediately)
-  localStorage.removeItem("chickenz-wallet-address");
-  localStorage.setItem("chickenz-wallet-disconnected", "1");
+  localStorage.removeItem("proofstrike-wallet-address");
+  localStorage.setItem("proofstrike-wallet-disconnected", "1");
   lastAuthProof = null;
   // Try to disconnect SDK session (best-effort)
   if (kit) {
@@ -229,7 +229,7 @@ async function callContract(method: string, args: StellarSdk.xdr.ScVal[]): Promi
   const tx = await StellarSdk.contract.AssembledTransaction.build({
     method,
     args,
-    contractId: CHICKENZ_CONTRACT,
+    contractId: PROOFSTRIKE_CONTRACT,
     networkPassphrase: TESTNET_PASSPHRASE,
     rpcUrl: TESTNET_RPC,
     publicKey: kit.contractId,

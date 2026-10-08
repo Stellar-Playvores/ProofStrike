@@ -1,14 +1,14 @@
 {
-  "name": "chickenz-wasm",
+  "name": "proofstrike-wasm",
   "type": "module",
   "version": "0.1.0",
   "files": [
-    "chickenz_wasm_bg.wasm",
-    "chickenz_wasm.js",
-    "chickenz_wasm.d.ts"
+    "proofstrike_wasm_bg.wasm",
+    "proofstrike_wasm.js",
+    "proofstrike_wasm.d.ts"
   ],
-  "main": "chickenz_wasm.js",
-  "types": "chickenz_wasm.d.ts",
+  "main": "proofstrike_wasm.js",
+  "types": "proofstrike_wasm.d.ts",
   "sideEffects": [
     "./snippets/*"
   ]

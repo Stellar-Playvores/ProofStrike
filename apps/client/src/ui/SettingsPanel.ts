@@ -106,7 +106,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
   }
 
   function setMusicMuted(muted: boolean) {
-    localStorage.setItem("chickenz-music-muted", String(muted));
+    localStorage.setItem("proofstrike-music-muted", String(muted));
     checkMusic.checked = !muted;
     updateMusicIcon(muted);
     const scene = getGameScene();
@@ -114,9 +114,9 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
   }
 
   function applyAudioSettings(scene: GameScene) {
-    const bgm = parseInt(localStorage.getItem("chickenz-bgm-volume") ?? "10", 10);
-    const sfx = parseInt(localStorage.getItem("chickenz-sfx-volume") ?? "80", 10);
-    const musicMuted = localStorage.getItem("chickenz-music-muted") !== "false";
+    const bgm = parseInt(localStorage.getItem("proofstrike-bgm-volume") ?? "10", 10);
+    const sfx = parseInt(localStorage.getItem("proofstrike-sfx-volume") ?? "80", 10);
+    const musicMuted = localStorage.getItem("proofstrike-music-muted") !== "false";
     scene.setBGMVolume(bgm / 100);
     scene.setSFXVolume(sfx / 100);
     scene.setMusicMuted(musicMuted);
@@ -127,14 +127,14 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
     settingsOverlay.classList.add("visible");
     refreshKeyBindingUI();
     // Sync slider/checkbox values from localStorage
-    const bgm = parseInt(localStorage.getItem("chickenz-bgm-volume") ?? "10", 10);
-    const sfx = parseInt(localStorage.getItem("chickenz-sfx-volume") ?? "80", 10);
+    const bgm = parseInt(localStorage.getItem("proofstrike-bgm-volume") ?? "10", 10);
+    const sfx = parseInt(localStorage.getItem("proofstrike-sfx-volume") ?? "80", 10);
     sliderBGM.value = String(bgm);
     valBGM.textContent = String(bgm);
     sliderSFX.value = String(sfx);
     valSFX.textContent = String(sfx);
-    checkDynamicZoom.checked = localStorage.getItem("chickenz-dynamic-zoom") !== "false";
-    checkMusic.checked = localStorage.getItem("chickenz-music-muted") !== "true";
+    checkDynamicZoom.checked = localStorage.getItem("proofstrike-dynamic-zoom") !== "false";
+    checkMusic.checked = localStorage.getItem("proofstrike-music-muted") !== "true";
     settingsUsername.value = session.currentUsername;
     settingsUsernameError.textContent = "";
     updateCharUI();
@@ -177,7 +177,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
       return;
     }
     settingsUsernameError.textContent = "";
-    localStorage.setItem("chickenz-username", name);
+    localStorage.setItem("proofstrike-username", name);
     const nm = getNetworkManager();
     if (nm?.connected) {
       nm.sendSetUsername(name);
@@ -309,7 +309,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
   sliderBGM.addEventListener("input", () => {
     const val = parseInt(sliderBGM.value, 10);
     valBGM.textContent = String(val);
-    localStorage.setItem("chickenz-bgm-volume", String(val));
+    localStorage.setItem("proofstrike-bgm-volume", String(val));
     const scene = getGameScene();
     if (scene) scene.setBGMVolume(val / 100);
   });
@@ -317,38 +317,38 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
   sliderSFX.addEventListener("input", () => {
     const val = parseInt(sliderSFX.value, 10);
     valSFX.textContent = String(val);
-    localStorage.setItem("chickenz-sfx-volume", String(val));
+    localStorage.setItem("proofstrike-sfx-volume", String(val));
     const scene = getGameScene();
     if (scene) scene.setSFXVolume(val / 100);
   });
 
   // ── Music Toggle ──────────────────────────────────────────────────────────────
 
-  // Audio migration: old "chickenz-muted" → separate "chickenz-music-muted"
+  // Audio migration: old "proofstrike-muted" → separate "proofstrike-music-muted"
   {
-    if (!localStorage.getItem("chickenz-audio-migrated")) {
-      const oldMuted = localStorage.getItem("chickenz-muted");
+    if (!localStorage.getItem("proofstrike-audio-migrated")) {
+      const oldMuted = localStorage.getItem("proofstrike-muted");
       // If old key was explicitly "false" (user unmuted), keep music ON
       if (oldMuted === "false") {
-        localStorage.setItem("chickenz-music-muted", "false");
+        localStorage.setItem("proofstrike-music-muted", "false");
       } else {
         // Default: music OFF for new users
-        localStorage.setItem("chickenz-music-muted", "true");
+        localStorage.setItem("proofstrike-music-muted", "true");
       }
-      localStorage.removeItem("chickenz-muted");
-      localStorage.setItem("chickenz-audio-migrated", "1");
+      localStorage.removeItem("proofstrike-muted");
+      localStorage.setItem("proofstrike-audio-migrated", "1");
     }
   }
 
   checkMusic.addEventListener("change", () => setMusicMuted(!checkMusic.checked));
   muteBtn.addEventListener("click", () => {
-    const currentlyMuted = localStorage.getItem("chickenz-music-muted") !== "false";
+    const currentlyMuted = localStorage.getItem("proofstrike-music-muted") !== "false";
     setMusicMuted(!currentlyMuted);
     // If unmuting and BGM volume was 0, set a reasonable default
     if (currentlyMuted) {
-      const bgm = parseInt(localStorage.getItem("chickenz-bgm-volume") ?? "10", 10);
+      const bgm = parseInt(localStorage.getItem("proofstrike-bgm-volume") ?? "10", 10);
       if (bgm === 0) {
-        localStorage.setItem("chickenz-bgm-volume", "10");
+        localStorage.setItem("proofstrike-bgm-volume", "10");
         sliderBGM.value = "10";
         valBGM.textContent = "10";
         const scene = getGameScene();
@@ -360,7 +360,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
 
   // Restore saved music state
   {
-    const musicMuted = localStorage.getItem("chickenz-music-muted") !== "false";
+    const musicMuted = localStorage.getItem("proofstrike-music-muted") !== "false";
     checkMusic.checked = !musicMuted;
     updateMusicIcon(musicMuted);
   }
@@ -368,7 +368,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
   // ── Display Settings ──────────────────────────────────────────────────────────
 
   checkDynamicZoom.addEventListener("change", () => {
-    localStorage.setItem("chickenz-dynamic-zoom", String(checkDynamicZoom.checked));
+    localStorage.setItem("proofstrike-dynamic-zoom", String(checkDynamicZoom.checked));
     const scene = getGameScene();
     if (scene) scene.setDynamicZoom(checkDynamicZoom.checked);
   });
@@ -397,8 +397,8 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
     session.homeCharacter = ((idx % NUM_CHARACTERS) + NUM_CHARACTERS) % NUM_CHARACTERS;
     if (session.homeCharacter === session.awayCharacter)
       session.awayCharacter = (session.homeCharacter + 1) % NUM_CHARACTERS;
-    localStorage.setItem("chickenz-home-char", String(session.homeCharacter));
-    localStorage.setItem("chickenz-away-char", String(session.awayCharacter));
+    localStorage.setItem("proofstrike-home-char", String(session.homeCharacter));
+    localStorage.setItem("proofstrike-away-char", String(session.awayCharacter));
     session.pendingCharacter = session.homeCharacter;
     updateCharUI();
   }
@@ -407,7 +407,7 @@ export function initSettingsPanel(deps: SettingsPanelDeps): SettingsPanelAPI {
     session.awayCharacter = ((idx % NUM_CHARACTERS) + NUM_CHARACTERS) % NUM_CHARACTERS;
     if (session.awayCharacter === session.homeCharacter)
       session.awayCharacter = (session.awayCharacter + 1) % NUM_CHARACTERS;
-    localStorage.setItem("chickenz-away-char", String(session.awayCharacter));
+    localStorage.setItem("proofstrike-away-char", String(session.awayCharacter));
     updateCharUI();
   }
 
